@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:travelapp/Pages/EditProfile.dart';
+import 'package:travelapp/Pages/SavedPlaces.dart';
+import 'package:travelapp/Pages/Settings.dart';
 
 class Account extends StatefulWidget {
   const Account({super.key});
@@ -37,16 +39,35 @@ class _AccountState extends State<Account> {
       'title': 'Constantine',
       'Date': "November 2024"
     },
-    {
-      'image': 'assets/setif3.jpg',
-      'title': 'Setif',
-      'Date': "Janury 2023"
-    },
+    {'image': 'assets/setif3.jpg', 'title': 'Setif', 'Date': "Janury 2023"},
   ];
-  List <Map<String, dynamic>> settings = [
-    {'image':'assets/setting.png' , 'label': 'Account Settings'},
-    {'image':'assets/location-pin.png', 'label': 'Saved Palces'},
-  ];
+  List<Map<String, dynamic>> getsettings(BuildContext context) {
+    return [
+      {
+        'image': 'assets/setting.png',
+        'label': 'Account Settings',
+        'ontap': () => {
+              Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                      transitionDuration: Duration(milliseconds: 400),
+                      pageBuilder: (_, __, ___) => Settings()))
+            }
+      },
+      {
+        'image': 'assets/location-pin.png',
+        'label': 'Saved Palces',
+        'ontap': () => {
+              Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                      transitionDuration: Duration(milliseconds: 400),
+                      pageBuilder: (_, __, ___) => Savedplaces()))
+            }
+      },
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
@@ -57,6 +78,7 @@ class _AccountState extends State<Account> {
         systemNavigationBarIconBrightness: Brightness.dark,
       ),
     );
+    final Settings = getsettings(context);
     return ScreenUtilInit(
       builder: (context, child) {
         return Scaffold(
@@ -121,9 +143,12 @@ class _AccountState extends State<Account> {
                       SizedBox(height: 8.h),
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.push(context, PageRouteBuilder(
-                            transitionDuration: Duration(milliseconds: 400),
-                            pageBuilder: (_,__,___)=>Editprofile()));
+                          Navigator.push(
+                              context,
+                              PageRouteBuilder(
+                                  transitionDuration:
+                                      Duration(milliseconds: 400),
+                                  pageBuilder: (_, __, ___) => Editprofile()));
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Color.fromARGB(255, 230, 240, 233),
@@ -300,33 +325,31 @@ class _AccountState extends State<Account> {
                       Container(
                         width: 300.w,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16.r),
-                          color: Color.fromARGB(255, 215, 224, 217),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              blurRadius: 5,
-                              offset: Offset(0, 2),
-                            )
-                          ]
-                        ),
+                            borderRadius: BorderRadius.circular(16.r),
+                            color: Color.fromARGB(255, 215, 224, 217),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                blurRadius: 5,
+                                offset: Offset(0, 2),
+                              )
+                            ]),
                         child: Column(
-                          children: settings.map((setting) {
-                            return ListTile(
-                              leading:Image.asset(
-                                setting['image'],
-                                width: 24.w,
-                                height: 24.h,
-                                color: Colors.black.withOpacity(0.6),
-                              ),
-                              title: Text(
-                                setting['label'],
-                                style: TextStyle(fontSize: 16.sp),
-                              ),
-                              onTap: () {
-                                // Handle tap
-                              },
-                            );
+                          children: Settings.map((setting) {
+                            return  ListTile(
+                                leading: Image.asset(
+                                  setting['image'],
+                                  width: 24.w,
+                                  height: 24.h,
+                                  color: Colors.black.withOpacity(0.6),
+                                ),
+                                title: Text(
+                                  setting['label'],
+                                  style: TextStyle(fontSize: 16.sp),
+                                ),
+                                onTap: setting['ontap'],
+                              );
+                            
                           }).toList(),
                         ),
                       ),
