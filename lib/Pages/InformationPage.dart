@@ -29,6 +29,7 @@ class _InformationpageState extends State<Informationpage> {
         'countryicon': 'assets/algeria.png',
         'description': 'Peacful and beautiful city',
         'isLiked': false,
+        'isSaved': false,
         'personname': 'Jack Elves',
         'personimage': 'assets/male3.jpg'
       },
@@ -144,25 +145,73 @@ class _InformationpageState extends State<Informationpage> {
                                 ),
                               ))),
                       actions: [
-                        Padding(
-                            padding: EdgeInsets.only(right: 12.w, top: 8.h),
-                            child: GestureDetector(
-                                child: Container(
-                                    height: 40.h,
-                                    width: 40.h,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.3),
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Image.asset(
-                                        'assets/heart.png',
+                        Row(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(right: 12.w, top: 8.h),
+                              child: Container(
+                                height: 40.h,
+                                width: 40.h,
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.3),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        images[0]['isSaved'] =
+                                            !(images[0]['isSaved'] as bool);
+                                      });
+                                    },
+                                    child: Image.asset(
+                                        images[0]['isSaved']
+                                            ? 'assets/saved.png'
+                                            : 'assets/unsave.png',
+                                        fit: BoxFit.contain,
                                         color: Colors.white,
                                         height: 25.h,
-                                        width: 25.w,
-                                      ),
-                                    )))),
+                                        width: 25.w),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(right: 12.w, top: 8.h),
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    images[0]['isLiked'] =
+                                        !images[0]['isLiked'];
+                                  });
+                                },
+                                child: Container(
+                                  height: 40.h,
+                                  width: 40.h,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.3),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Image.asset(
+                                      images[0]['isLiked']
+                                          ? 'assets/heartfilled.png'
+                                          : 'assets/heart.png',
+                                      fit: BoxFit.contain,
+                                      color: images[0]['isLiked']
+                                          ? Colors.red
+                                          : Colors.white,
+                                      height: 25.h,
+                                      width: 25.w,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        )
                       ],
                     ),
                     SliverToBoxAdapter(

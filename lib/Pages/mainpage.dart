@@ -432,7 +432,7 @@ class _MainpageState extends State<Mainpage> {
                                                   fit: BoxFit.contain,
                                                   height: 30.h,
                                                   width: 30.w,
-                                                  color: Colors.white,
+                                                  color:images[index]['isLiked']?Colors.red: Colors.white,
                                                 )),
                                           ),
                                         )
