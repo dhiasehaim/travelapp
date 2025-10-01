@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:swipable_stack/swipable_stack.dart';
+import 'package:travelapp/Loginpages/Login.dart';
 import 'package:travelapp/Pages/Account.dart';
 import 'package:travelapp/Pages/InformationPage.dart';
+import 'package:travelapp/auth/authservice.dart';
 
 class Mainpage extends StatefulWidget {
   const Mainpage({super.key});
@@ -72,6 +74,7 @@ class _MainpageState extends State<Mainpage> {
     'assets/female1.jpg',
   ];
   final SwipableStackController _controller = SwipableStackController();
+  Authservice authservice=Authservice();
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
@@ -123,11 +126,29 @@ class _MainpageState extends State<Mainpage> {
                             backgroundImage: AssetImage('assets/male3.jpg'),
                           ),
                         ),
-                        title: Text('Hello , Jack Elves 👋',
-                            style: TextStyle(
-                              fontSize: 17.sp,
-                              fontWeight: FontWeight.w500,
-                            )),
+                        title:FutureBuilder(
+                          future: authservice.GetFullName(),
+                           builder:(context,snapshot){
+                            if(snapshot.connectionState==ConnectionState.waiting){
+                              return Text('Loading...',style: TextStyle(
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.w500,
+                              ),);
+                            }else if(snapshot.hasError){
+                              return Text('Error',style: TextStyle(
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.w500,
+                              ),);
+                            }else{
+                              final fullname=snapshot.data;
+                              return Text('Hi, $fullname 👋',style: TextStyle(
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.w500,
+                              ),);
+                            }
+                           }
+                          ),
+                          
                       ),
                     ),
                     SizedBox(height: 10.h),

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:travelapp/Loginpages/Signup.dart';
 import 'package:travelapp/Pages/mainpage.dart';
+import 'package:travelapp/auth/authservice.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -14,6 +15,8 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  Authservice authservice = Authservice();
+  
   bool obscureText = false;
   @override
   Widget build(BuildContext context) {
@@ -137,7 +140,9 @@ class _LoginState extends State<Login> {
                       padding: EdgeInsets.symmetric(horizontal: 20.w),
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.push(context, PageRouteBuilder(
+                          final response=authservice.signInWithPassword(emailController.text, passwordController.text);
+                          if(response!=null){
+                             Navigator.push(context, PageRouteBuilder(
                             transitionDuration: Duration(milliseconds: 400),
                             pageBuilder: (_,__,___)=>Mainpage(),
                             transitionsBuilder: (_, animation, __, child){
@@ -147,6 +152,11 @@ class _LoginState extends State<Login> {
                               );
                             }
                             ));
+                          }
+                          else if(response == null){
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Login Failed')));
+                          }
+                        
                         },
                         child: Container(
                           height: 50.h,

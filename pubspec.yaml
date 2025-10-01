@@ -31,6 +31,7 @@ dependencies:
   flutter_screenutil: ^5.9.3
   swipable_stack: ^2.0.0
   slide_to_act: 
+  supabase_flutter: 
   flutter:
     sdk: flutter
 

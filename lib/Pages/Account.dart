@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:travelapp/Pages/EditProfile.dart';
 import 'package:travelapp/Pages/SavedPlaces.dart';
 import 'package:travelapp/Pages/Settings.dart';
+import 'package:travelapp/auth/authservice.dart';
 
 class Account extends StatefulWidget {
   const Account({super.key});
@@ -13,6 +14,7 @@ class Account extends StatefulWidget {
 }
 
 class _AccountState extends State<Account> {
+  Authservice authservice=Authservice();
   List<Map<String, dynamic>> travelStats = [
     {
       'image': 'assets/suitcase.png',
@@ -104,12 +106,25 @@ class _AccountState extends State<Account> {
                       SizedBox(
                         height: 8.h,
                       ),
-                      Text(
-                        'Jack Elves',
-                        style: TextStyle(
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.w600,
-                        ),
+                      FutureBuilder(
+                        future: authservice.GetFullName(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return CircularProgressIndicator();
+                          } else if (snapshot.hasError) {
+                            return Text('Error: ${snapshot.error}');
+                          } else {
+                            final fullname = snapshot.data ?? 'User';
+                            return Text(
+                              fullname,
+                              style: TextStyle(
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            );
+                          }
+                        },
                       ),
                       SizedBox(height: 5.h),
                       Row(

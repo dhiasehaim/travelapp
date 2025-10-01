@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:travelapp/Loginpages/Login.dart';
+import 'package:travelapp/auth/authservice.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});
@@ -16,6 +17,7 @@ class _SignupState extends State<Signup> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController ConfirmPasswrodController = TextEditingController();
+  Authservice authservice=Authservice();
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
@@ -85,7 +87,6 @@ class _SignupState extends State<Signup> {
                     ),
                     _buildTextFiled('Full name', 'Enter your full name',
                         FullNameController, Icons.person_rounded),
-                    //sSizedBox(height: 5.h,),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(
@@ -139,6 +140,7 @@ class _SignupState extends State<Signup> {
                       padding: EdgeInsets.symmetric(horizontal: 20.w),
                       child: GestureDetector(
                         onTap: () {
+                          authservice.signUpWithPassword(FullNameController.text, emailController.text, passwordController.text);
                           Navigator.push(context, PageRouteBuilder(
                             transitionDuration: Duration(milliseconds: 400),
                             pageBuilder: (_,__,___)=>Login(),
