@@ -32,6 +32,8 @@ dependencies:
   swipable_stack: ^2.0.0
   slide_to_act: 
   supabase_flutter: 
+  multi_image_picker_view: ^3.0.0
+  image_picker: ^0.8.7+5
   flutter:
     sdk: flutter
 

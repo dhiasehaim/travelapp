@@ -21,7 +21,7 @@ class _AuthgateState extends State<Authgate> {
             body: Center(child: CircularProgressIndicator()),
           );
         } else {
-          final session = Supabase.instance.client.auth.currentSession;
+          final session = snapshot.hasData ? snapshot.data!.session : null;
           if (session == null) {
             return const Login();
           } else {

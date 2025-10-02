@@ -38,4 +38,18 @@ class Authservice {
   Future<void> signOut() async{
     await _supabaseClient.auth.signOut();
   }
+  Future InserTravelInfo(String CountryName,String CityName,String Description,String Title) async{
+    final user=await _supabaseClient.auth.currentUser;
+    if (user !=null) {
+      final id=user.id;
+      await _supabaseClient.from('userstravel').insert({
+        'user_id':id,
+        'countryname':CountryName,
+        'cityname':CityName,
+        'user_description':Description,
+        'title':Title,
+      });
+    }
+
+  }
 }

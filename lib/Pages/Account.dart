@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:travelapp/Pages/EditProfile.dart';
+import 'package:travelapp/Pages/NewTrip.dart';
 import 'package:travelapp/Pages/SavedPlaces.dart';
 import 'package:travelapp/Pages/Settings.dart';
 import 'package:travelapp/auth/authservice.dart';
@@ -156,14 +157,46 @@ class _AccountState extends State<Account> {
                         ],
                       ),
                       SizedBox(height: 8.h),
-                      ElevatedButton(
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  PageRouteBuilder(
+                                      transitionDuration:
+                                          Duration(milliseconds: 400),
+                                      pageBuilder: (_, __, ___) => Editprofile()));
+                            },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Color.fromARGB(255, 230, 240, 233),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12.r),
+                                ),
+                                minimumSize: Size(130.w, 35.h),
+                                side: BorderSide(
+                                  color: Color.fromARGB(255, 104, 104, 104),
+                                  width: 1.w,
+                                ),
+                                shadowColor: Colors.black.withOpacity(0.2),
+                                elevation: 5),
+                            child: Text(
+                              'Edit Profile',
+                              style:
+                                  TextStyle(fontSize: 16.sp, color: Colors.black),
+                            ),
+                          ),
+                          SizedBox(width: 10.w,),
+                          ElevatedButton(
                         onPressed: () {
                           Navigator.push(
                               context,
                               PageRouteBuilder(
                                   transitionDuration:
                                       Duration(milliseconds: 400),
-                                  pageBuilder: (_, __, ___) => Editprofile()));
+                                  pageBuilder: (_, __, ___) => Newtrip()));
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Color.fromARGB(255, 230, 240, 233),
@@ -178,10 +211,12 @@ class _AccountState extends State<Account> {
                             shadowColor: Colors.black.withOpacity(0.2),
                             elevation: 5),
                         child: Text(
-                          'Edit Profile',
+                          'New Trip',
                           style:
                               TextStyle(fontSize: 16.sp, color: Colors.black),
                         ),
+                      ),
+                        ],
                       ),
                       SizedBox(height: 10.h),
                       Align(
