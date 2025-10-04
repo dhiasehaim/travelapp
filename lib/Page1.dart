@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:slide_to_act/slide_to_act.dart';
 import 'package:travelapp/Loginpages/Login.dart';
+import 'package:travelapp/auth/authgate.dart';
 
 class Page1 extends StatefulWidget {
   const Page1({super.key});
@@ -76,7 +77,7 @@ class _Page1State extends State<Page1> {
                             PageRouteBuilder(
                                 transitionDuration:
                                     const Duration(milliseconds: 500),
-                                pageBuilder: (_, __, ___) => Login(),
+                                pageBuilder: (_, __, ___) => Authgate(),
                                 transitionsBuilder: (_, animate, __, child) {
                                   return FadeTransition(
                                     opacity: animate,

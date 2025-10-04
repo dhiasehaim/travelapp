@@ -21,7 +21,7 @@ class _AuthgateState extends State<Authgate> {
             body: Center(child: CircularProgressIndicator()),
           );
         } else {
-          final session = snapshot.hasData ? snapshot.data!.session : null;
+          final session = snapshot.data?.session;
           if (session == null) {
             return const Login();
           } else {

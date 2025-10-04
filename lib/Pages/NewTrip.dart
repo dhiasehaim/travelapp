@@ -90,7 +90,7 @@ class _NewtripState extends State<Newtrip> {
                   GestureDetector(
                     onTap: PickImages,
                     child: Container(
-                      height: 200.h,
+                      height: 260.h,
                       width: 325.w,
                       decoration: BoxDecoration(
                           color: Colors.transparent.withOpacity(0.1),
@@ -141,7 +141,7 @@ class _NewtripState extends State<Newtrip> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      authservice.InserTravelInfo(CountryNameController.text, CityNameController.text, DescriptionController.text, TitleController.text);
+                      authservice.InserTravelInfo(CountryNameController.text, CityNameController.text, DescriptionController.text, TitleController.text, MultiIamge);
                       Navigator.pop(context);
                     }
                     ,
@@ -196,17 +196,17 @@ class _NewtripState extends State<Newtrip> {
             contentPadding: EdgeInsets.symmetric(
                 horizontal: 16.w, vertical: isdescription ? 60.h : 15.h),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12.r),
+              borderRadius: BorderRadius.circular(15.r),
               borderSide:
                   BorderSide(color: Colors.grey.withOpacity(0.6), width: 1.w),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12.r),
+              borderRadius: BorderRadius.circular(15.r),
               borderSide:
                   BorderSide(color: Colors.grey.withOpacity(0.6), width: 1.w),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12.r),
+              borderRadius: BorderRadius.circular(15.r),
               borderSide:
                   BorderSide(color: Colors.grey.withOpacity(0.6), width: 1.w),
             )),
