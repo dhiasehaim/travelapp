@@ -92,36 +92,90 @@ class Authservice {
     }
   }
 
- Future GetTravelInfo() async {
-  final user = _supabaseClient.auth.currentUser;
+  Future GetTarvelInfoForJournal() async {
+    final user = await _supabaseClient.auth.currentUser;
+    if (user == null) {
+      return;
+    }
+    final id = user.id;
+    final TravelId = await _supabaseClient
+        .from('userstravel')
+        .select('cityname,travelid')
+        .eq('user_id', id);
+    List<Map<String, dynamic>> TravelCity = [];
+    for (var travel in TravelId) {
+      final pictures = await _supabaseClient
+          .from('travelpictures')
+          .select('image_url')
+          .eq('travel_id', travel['travelid'])
+          .limit(1);
 
-  if (user == null) {
-    return null; // user not logged in
+      TravelCity.add({
+        'cityname': travel['cityname'],
+        'travelid': travel['travelid'],
+        'image_url': pictures.isNotEmpty ? pictures[0]['image_url'] : null,
+      });
+    }
+    return TravelCity;
   }
 
-  // Get the latest travelid for this user
-  final travelResult = await _supabaseClient
-      .from('userstravel')
-      .select('travelid')
-      .eq('user_id', user.id)
-      .order('travelid', ascending: false)
-      .limit(1);
-
-  if (travelResult.isEmpty) {
-    return []; // no travels yet
+  Future<int> CountCountries() async {
+    final user = await _supabaseClient.auth.currentUser;
+    if (user == null) {
+      return 0;
+    }
+    final id = user.id;
+    final response = await _supabaseClient
+        .from('userstravel')
+        .select(
+          'countryname',
+        )
+        .eq('user_id', id);
+    return response.length;
   }
 
-  final travelId = travelResult.first['travelid'];
+  Future<int> CountCities() async {
+    final user = await _supabaseClient.auth.currentUser;
+    if (user == null) {
+      return 0;
+    }
+    final id = user.id;
+    final response = await _supabaseClient
+        .from('userstravel')
+        .select(
+          'cityname',
+        )
+        .eq('user_id', id);
+    return response.length;
+  }
 
-  // Now get pictures for that travel
-  final response = await _supabaseClient
-      .from('travelpictures')
-      .select()
-      .eq('user_id', user.id)
-      .eq('travel_id', travelId)
-      .limit(1);
+  // ignore: non_constant_identifier_names
+  Future GetTarvelInfo() async {
+    final user = await _supabaseClient.auth.currentUser;
+    if (user == null) {
+      return;
+    }
+    final id = user.id;
+    final TravelId = await _supabaseClient.from('userstravel').select();
+    final userfullname = await GetFullName();
+    List<Map<String, dynamic>> TravelCity = [];
+    for (var travel in TravelId) {
+      final pictures = await _supabaseClient
+          .from('travelpictures')
+          .select('image_url')
+          .eq('travel_id', travel['travelid']);
 
-  return response;
-}
-
+      TravelCity.add({
+        'personname': userfullname,
+        'cityname': travel['cityname'],
+        'travelid': travel['travelid'],
+        'countryname': travel['countryname'],
+        'user_description': travel['user_description'],
+        'title': travel['title'],
+        'image_url': pictures.isNotEmpty ? pictures[0]['image_url'] : null,
+        'image_list':  pictures.map((pic) => pic['image_url']).toList(),
+      });
+    }
+    return TravelCity;
+  }
 }

@@ -4,7 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:travelapp/Pages/mainpage.dart';
 
 class Informationpage extends StatefulWidget {
-  const Informationpage({super.key});
+  final Map<String, dynamic> tripData;
+  const Informationpage({required this.tripData, super.key});
 
   @override
   State<Informationpage> createState() => _InformationpageState();
@@ -30,8 +31,8 @@ class _InformationpageState extends State<Informationpage> {
         'description': 'Peacful and beautiful city',
         'isLiked': false,
         'isSaved': false,
-        'personname': 'Jack Elves',
-        'personimage': 'assets/male3.jpg'
+        'personname': 'Jessica Alves',
+        'personimage': 'assets/dhia.jpg'
       },
     ];
     List<String> Persons = [
@@ -42,12 +43,19 @@ class _InformationpageState extends State<Informationpage> {
     ];
 
     List<String> Setif = [
-      'assets/Constantine.jpg',
-      'assets/Constantine1.jpg',
-      'assets/Constantine2.jpg',
-      'assets/Constantine3.jpg',
+      'assets/setif.jpg',
+      'assets/setif1.jpg',
+      'assets/setif2.jpg',
+      'assets/setif3.jpg',
     ];
-    double val = 0.35;
+    double val = 0.28;
+    final trip= widget.tripData;
+    final Title= trip['title'] ?? 'No Title';
+    final Description= trip['user_description'] ?? 'No Description';
+    final MultiIamge= trip['image_list'] ?? [];
+    final Country=trip['countryname'] ?? 'No Country';
+    final City=trip['cityname'] ?? 'No City';
+    final Name= trip['personname'] ?? 'No Name';
     void _showDialog() {
       showDialog(
         context: context,
@@ -68,8 +76,8 @@ class _InformationpageState extends State<Informationpage> {
                   itemBuilder: (context, i) {
                     return GestureDetector(
                       onTap: () => Navigator.pop(context),
-                      child: Image.asset(
-                        Setif[i],
+                      child: Image.network(
+                        MultiIamge[i],
                         fit: BoxFit.cover,
                       ),
                     );
@@ -102,10 +110,10 @@ class _InformationpageState extends State<Informationpage> {
                           _showDialog();
                         },
                         child: PageView.builder(
-                            itemCount: Setif.length,
+                            itemCount: MultiIamge == null ? 1 : MultiIamge.length,
                             itemBuilder: (context, index) {
-                              return Image.asset(
-                                Setif[index],
+                              return Image.network(
+                                MultiIamge[index],
                                 fit: BoxFit.cover,
                               );
                             }),
@@ -245,7 +253,7 @@ class _InformationpageState extends State<Informationpage> {
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 24.w),
                             child: Text(
-                              "Constantine's Timeless Beauty",
+                              Title,
                               style: TextStyle(
                                   fontSize: 27.sp, fontWeight: FontWeight.w500),
                             ),
@@ -275,7 +283,7 @@ class _InformationpageState extends State<Informationpage> {
                                   width: 3.w,
                                 ),
                                 Text(
-                                  "${images[0]['personname']}",
+                                  Name,
                                   style: TextStyle(
                                     fontSize: 14.sp,
                                     color: Colors.black,
@@ -309,7 +317,7 @@ class _InformationpageState extends State<Informationpage> {
                                           Icons.star_rounded,
                                           color: Colors.amber,
                                         ),
-                                        Text('4.5')
+                                        Text('4.2')
                                       ],
                                     )),
                                 SizedBox(
@@ -326,11 +334,11 @@ class _InformationpageState extends State<Informationpage> {
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
                                       Image.asset(
-                                        'assets/algeria.png',
+                                        'assets/austria.png',
                                         height: 25.h,
                                         width: 25.w,
                                       ),
-                                      Text('Algeria')
+                                      Text(Country)
                                     ],
                                   ),
                                 )
@@ -349,7 +357,7 @@ class _InformationpageState extends State<Informationpage> {
                                   Row(
                                     children: [
                                       Text(
-                                        '5k+',
+                                        '3.9+',
                                         style: TextStyle(
                                             fontSize: 16.sp,
                                             fontWeight: FontWeight.w600),
@@ -435,7 +443,7 @@ class _InformationpageState extends State<Informationpage> {
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 10.w),
                             child: Text(
-                              'Discover the breathtaking beauty of Constantine the City of Bridges, where history hangs gracefully above the gorges.',
+                              Description,
                               style: TextStyle(
                                   fontSize: 15.sp,
                                   fontWeight: FontWeight.w500,

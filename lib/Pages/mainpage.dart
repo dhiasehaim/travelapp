@@ -20,7 +20,7 @@ class _MainpageState extends State<Mainpage> {
       'name': 'Algeris',
       'image': 'assets/page1.jpg',
       'country': "Algeria",
-      'countryicon': 'assets/algeria.png',
+      'countryicon': 'assets/austria.png',
       'description': 'Peacful and beautiful city',
       'isLiked': false,
       'desc': "The Capital charm",
@@ -30,41 +30,11 @@ class _MainpageState extends State<Mainpage> {
       'name': 'Setif',
       'image': 'assets/setif.jpg',
       'country': "Algeria",
-      'countryicon': 'assets/algeria.png',
+      'countryicon': 'assets/spain.png',
       'description': 'The High Plateau Capital',
       'isLiked': false,
       'desc': "The Beatiful city",
       'rating': "4.9"
-    },
-    {
-      'name': 'Oran',
-      'image': 'assets/oran.jpg',
-      'country': "Algeria",
-      'countryicon': 'assets/algeria.png',
-      'description': ' The Radiant City',
-      'isLiked': false,
-      'desc': "The Capital charm",
-      'rating': "4.6"
-    },
-    {
-      'name': 'Tamanrasset',
-      'image': 'assets/tmanraset.jpg',
-      'country': "Algeria",
-      'countryicon': 'assets/algeria.png',
-      'description': 'The Gateway to the Sahara',
-      'isLiked': false,
-      'desc': "The Sahara",
-      'rating': "4.6"
-    },
-    {
-      'name': 'Constantine',
-      'image': 'assets/Constantine.jpg',
-      'country': "Algeria",
-      'countryicon': 'assets/algeria.png',
-      'description': 'The City of Bridges',
-      'isLiked': false,
-      'desc': "The Knowledge City",
-      'rating': "4.5"
     },
   ];
   List<String> Persons = [
@@ -123,7 +93,7 @@ class _MainpageState extends State<Mainpage> {
                           },
                           child: CircleAvatar(
                             radius: 25.r,
-                            backgroundImage: AssetImage('assets/male3.jpg'),
+                            backgroundImage: AssetImage('assets/dhia.jpg'),
                           ),
                         ),
                         title:FutureBuilder(
@@ -214,10 +184,21 @@ class _MainpageState extends State<Mainpage> {
                       ),
                     ),
                     SizedBox(height: 20.h),
-                    SizedBox(
+                    FutureBuilder(
+                      future:authservice.GetTarvelInfo() ,
+                      builder: (context,snapshot){
+                        if (snapshot.connectionState==ConnectionState.waiting) {
+                          return Center(child: CircularProgressIndicator(),);
+                        }
+                        else if(snapshot.hasError){
+                          return Text(snapshot.error.toString());
+                        }
+                        else{
+                          final Travelinfo=snapshot.data;
+                          return SizedBox(
                       height: 143.h,
                       child: ListView.builder(
-                          itemCount: images.length,
+                          itemCount: Travelinfo.length,
                           //physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
@@ -234,8 +215,8 @@ class _MainpageState extends State<Mainpage> {
                                       color: Colors.black.withOpacity(0.5),
                                       borderRadius: BorderRadius.circular(20.r),
                                       image: DecorationImage(
-                                        image:
-                                            AssetImage(images[index]['image']),
+                                        image:NetworkImage(Travelinfo[index]['image_url'])
+                                            ,
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -266,7 +247,7 @@ class _MainpageState extends State<Mainpage> {
                                                     width: 7.w,
                                                   ),
                                                   Text(
-                                                      '${images[index]['name']} , ${images[index]['country']}',
+                                                      '${Travelinfo[index]['cityname']} , ${Travelinfo[index]['countryname']}',
                                                       style: TextStyle(
                                                         fontSize: 19.sp,
                                                         color: Colors.white,
@@ -283,7 +264,7 @@ class _MainpageState extends State<Mainpage> {
                                               padding: EdgeInsets.symmetric(
                                                   horizontal: 20.w),
                                               child: Text(
-                                                images[index]['description'],
+                                                Travelinfo[index]['title']??'',
                                                 style: TextStyle(
                                                   fontSize: 21.sp,
                                                   color: Colors.white,
@@ -322,6 +303,7 @@ class _MainpageState extends State<Mainpage> {
                                                           shape:
                                                               CircleBorder()),
                                                   onPressed: () {
+                                                    final travelData = Travelinfo[index];
                                                     Navigator.push(
                                                         context,
                                                         PageRouteBuilder(
@@ -340,7 +322,8 @@ class _MainpageState extends State<Mainpage> {
                                                             },
                                                             pageBuilder: (_, __,
                                                                     ___) =>
-                                                                Informationpage()));
+                                                                Informationpage(tripData:travelData,)));
+
                                                   },
                                                   child: Image.asset(
                                                     'assets/next.png',
@@ -361,7 +344,9 @@ class _MainpageState extends State<Mainpage> {
                               ),
                             );
                           }),
-                    ),
+                    ) ;
+                        }
+                      }),
                     SizedBox(height: 15.h),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20.w),
